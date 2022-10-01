@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-#define BUFF_1_SIZE 4096
+#define BUFF_1_SIZE 4
 
 #define BUFF_2_SIZE BUFF_1_SIZE
 
@@ -16,6 +16,13 @@ extern char *cp;
 #define AT_EOB1 (cp == &buffer[BUFF_1_SIZE - 1])
 
 #define AT_EOB2 (cp == &buffer[BUFF_SIZE - 1])
+
+// New guys
+#define AT_EOF_NEW(ptr) (*ptr == EOF)
+
+#define AT_EOB1_NEW(ptr) (ptr == &buffer[BUFF_1_SIZE - 1])
+
+#define AT_EOB2_NEW(ptr) (ptr == &buffer[BUFF_SIZE - 1])
 
 /*
  * Fill buffer 1
@@ -36,5 +43,15 @@ int open_file(char *filepath);
  * closes the file
  */
 int close_file();
+
+/*
+ * Returns next char in buffer, doing reloading behind the scenes.
+ */
+
+char advance();
+
+void db();
+
+void debug();
 
 #endif

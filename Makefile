@@ -1,16 +1,18 @@
 .PHONY: clean
+CC=gcc
+CFLAGS= -g -Wall -Wextra -gdwarf-2 -g3
 
 exec: main.o lexer.o file.o
-	gcc -o exec main.o lexer.o file.o
+	$(CC) $(CFLAGS) -o exec main.o lexer.o file.o
 
-main.o: main.c file.h
-	gcc -c -g main.c
+main.o: main.c lexer.h
+	$(CC) -c $(CFLAGS) main.c
 
 lexer.o: lexer.c lexer.h file.h
-	gcc -c -g lexer.c
+	$(CC) -c $(CFLAGS) lexer.c
 
 file.o: file.c file.h
-	gcc -c -g file.c
+	$(CC) -c $(CFLAGS) file.c
 
 clean:
 	rm -f exec *.o *.s

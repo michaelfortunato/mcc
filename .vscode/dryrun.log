@@ -1,8 +1,0 @@
-make --dry-run --keep-going --print-directory
-make: Entering directory '/home/mfortunato/sandbox/lexer'
-gcc -c -g main.c
-gcc -c -g lexer.c
-gcc -c -g file.c
-gcc -o exec main.o lexer.o file.o
-make: Leaving directory '/home/mfortunato/sandbox/lexer'
- 
