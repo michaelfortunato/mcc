@@ -29,6 +29,46 @@ void tok_type_to_str(TokenType tokType) {
   }
 }
 
+void debug2() {
+  char next_char;
+  for (;;) {
+    switch (next_char = advance()) {
+      case EOF: {
+        return;
+      }
+      case 'i': {
+        char luc1 = advance();
+        char luc2 = advance();
+        char luc3 = advance();
+        if (luc1 == 'n' && luc2 == 't' && (isspace(luc3) || luc3 == EOF)) {
+          printf("FOUND INT\n");
+          if (luc3 == EOF) {
+            return;
+          }
+          break;
+        } else if (luc1 == 'f' && (isspace(luc2) || luc2 == EOF)) {
+          printf("FOUND IF\n");
+          if (luc3 == EOF) {
+            return;
+          }
+          break;
+        }
+        goto id;
+      }
+      default:
+      id:
+        printf("FOUND IDENTIFIER\n");
+        while ((next_char = advance()) != EOF && !isspace(next_char)) {
+          printf("%c", next_char);
+        }
+        if (next_char == EOF) {
+          return;
+        }
+        break;
+    }
+  }
+}
+
 int main(int argc, char **argv) {
   if (argc != 2) {
     return 1;
@@ -57,50 +97,40 @@ int main(int argc, char **argv) {
   // printf("FIN : %d\n", b);
   printf("Raw contents\n");
   open_file(argv[1]);
+  /*
   char next_char;
   while ((next_char = advance()) != EOF) {
     printf("%c", next_char);
   }
+
   printf("\n");
   close_file();
+  */
+  tokenize_file(argv[1]);
+  // debug2();
+  int status_code;
+  /*
+  status_code = gettok();
+  printf("STATUS CODE %d \n", status_code);
+  printtok();
 
-  open_file(argv[1]);
-  for (;;) {
-    switch (next_char = advance()) {
-      case EOF: {
-        return 0;
-      }
-      case 'i': {
-        char luc1 = advance();
-        char luc2 = advance();
-        char luc3 = advance();
-        if (luc1 == 'n' && luc2 == 't' && (isspace(luc3) || luc3 == EOF)) {
-          printf("FOUND INT\n");
-          if (luc3 == EOF) {
-            return 0;
-          }
-          break;
-        } else if (luc1 == 'f' && (isspace(luc2) || luc2 == EOF)) {
-          printf("FOUND IF\n");
-          if (luc3 == EOF) {
-            return 0;
-          }
-          break;
-        }
-        goto id;
-      }
-      default:
-      id:
-        printf("FOUND IDENTIFIER\n");
-        while ((next_char = advance()) != EOF && !isspace(next_char)) {
-          printf("%c", next_char);
-        }
-        if (next_char == EOF) {
-          return 0;
-        }
-        break;
-    }
+  status_code = gettok();
+  printf("STATUS CODE %d \n", status_code);
+  printtok();
+
+  status_code = gettok();
+  printf("STATUS CODE %d \n", status_code);
+  printtok();
+
+  status_code = gettok();
+  printf("STATUS CODE %d \n", status_code);
+  printtok();
+  */
+  while (gettok() == 0) {
+    printtok();
   }
+
+  // close_file();
 
   /*
   // printf("\n%s", buffer);

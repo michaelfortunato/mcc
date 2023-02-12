@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-#define BUFF_1_SIZE 4
+#define BUFF_1_SIZE 4096
 
 #define BUFF_2_SIZE BUFF_1_SIZE
 
@@ -48,7 +48,7 @@ int close_file();
  * Returns next char in buffer, doing reloading behind the scenes.
  */
 
-char advance();
+char *advance();
 
 void db();
 

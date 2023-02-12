@@ -2,8 +2,8 @@
 CC=gcc
 CFLAGS= -g -Wall -Wextra -gdwarf-2 -g3
 
-exec: main.o lexer.o file.o
-	$(CC) $(CFLAGS) -o exec main.o lexer.o file.o
+exec.out: main.o lexer.o file.o
+	$(CC) $(CFLAGS) -o exec.out main.o lexer.o file.o
 
 main.o: main.c lexer.h
 	$(CC) -c $(CFLAGS) main.c

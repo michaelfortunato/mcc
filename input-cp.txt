@@ -1,1 +1,5 @@
-int if michael
+int if michael case default auto
+continue do double break
+breaks "hello" 12
+12000
+B600
