@@ -37,7 +37,7 @@ void printtoktype(TokenType toktype) {
       printf("TOKEN_STRLIT");
       return;
     case TOKEN_PUNCTUATOR:
-      printf("TOKEN_STRLIT");
+      printf("TOKEN_PUNCTUATOR");
       return;
     default:
       printf("INVALID TOKEN TYPE!");
@@ -369,6 +369,36 @@ int gettok() {
         while (isdigit(*(c = advance()))) {
         }
         token.lexeme_end = c;
+        return 0;
+      case '+':
+        token.lexeme_start = c;
+        token.type = TOKEN_PUNCTUATOR;
+        token.lexeme_end = advance();
+        return 0;
+      case '-':
+        token.lexeme_start = c;
+        token.type = TOKEN_PUNCTUATOR;
+        token.lexeme_end = advance();
+        return 0;
+      case '/':
+        token.lexeme_start = c;
+        token.type = TOKEN_PUNCTUATOR;
+        token.lexeme_end = advance();
+        return 0;
+      case '*':
+        token.lexeme_start = c;
+        token.type = TOKEN_PUNCTUATOR;
+        token.lexeme_end = advance();
+        return 0;
+      case '(':
+        token.lexeme_start = c;
+        token.type = TOKEN_PUNCTUATOR;
+        token.lexeme_end = advance();
+        return 0;
+      case ')':
+        token.lexeme_start = c;
+        token.type = TOKEN_PUNCTUATOR;
+        token.lexeme_end = advance();
         return 0;
       default:
         // printf("%p\n", buffer);
