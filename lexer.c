@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "file.h"
 
@@ -66,6 +67,44 @@ void printlexeme() {
         break;
     }
   }
+}
+
+char *circular_next(char *start, char *end) {
+  char *next = start + 1;
+  if (next == end) {
+    return next;
+  }
+  if (AT_EOB2_NEW(next)) {
+    next = buffer;
+    return next;
+  }
+  if (AT_EOB1_NEW(next)) {
+    next = next + 1;
+    return next;
+  }
+  if (*next == EOF) {
+    return NULL;
+  }
+  return next;
+}
+
+/**
+ * @brief
+ * Compare's the string lit with the current token's lexeme
+ */
+unsigned short int compare(const char *value) {
+  char *seeker = token.lexeme_start;
+  // unsigned short int round_trip = 0;
+  for (int i = 0; i < strlen(value); ++i) {
+    if (value[i] != *seeker) {
+      return 0;
+    }
+    seeker = circular_next(seeker, token.lexeme_end);
+    if ((seeker == NULL) && (i + 1 != strlen(value))) {
+      return 0;
+    }
+  }
+  return (seeker == token.lexeme_end);
 }
 
 void printtok() {
@@ -191,6 +230,7 @@ int gettok() {
           token.type = TOKEN_KEYWORD;
           token.lexeme_start = c;
           token.lexeme_end = lut7;
+          token.col_num = offset - 7;
           cp = lut7;
           return 0;
         }
@@ -199,6 +239,7 @@ int gettok() {
           token.lexeme_start = c;
           token.lexeme_end = lut6;
           cp = lut6;
+          token.col_num = offset - 7;
           return 0;
         }
         if (*lut1 == 'o' && (isspace(*lut2) || *lut2 == EOF)) {
@@ -206,6 +247,7 @@ int gettok() {
           token.lexeme_start = c;
           token.lexeme_end = lut2;
           cp = lut2;
+          token.col_num = offset - 7;
           return 0;
         }
         cp = lut1;
@@ -223,6 +265,7 @@ int gettok() {
           token.lexeme_start = c;
           token.lexeme_end = lut4;
           cp = lut4;
+          token.col_num = offset;
           return 0;
         }
 
@@ -232,6 +275,7 @@ int gettok() {
           token.lexeme_start = c;
           token.lexeme_end = lut4;
           cp = lut4;
+          token.col_num = offset;
           return 0;
         }
         cp = lut1;
@@ -249,6 +293,7 @@ int gettok() {
           token.lexeme_start = c;
           token.lexeme_end = lut5;
           cp = lut5;
+          token.col_num = offset;
           return 0;
         }
         if (*lut1 == 'o' && *lut2 == 'r' && (isspace(*lut3) || *lut3 == EOF)) {
@@ -256,6 +301,7 @@ int gettok() {
           token.lexeme_start = c;
           token.lexeme_end = lut4;
           cp = lut4;
+          token.col_num = offset;
           return 0;
         }
         cp = c;
@@ -270,6 +316,7 @@ int gettok() {
           token.lexeme_start = c;
           token.lexeme_end = lut4;
           cp = lut4;
+          token.col_num = offset;
           return 0;
         }
         goto id;
@@ -281,12 +328,14 @@ int gettok() {
           token.type = TOKEN_KEYWORD;
           token.lexeme_start = c;
           token.lexeme_end = lut3;
+          token.col_num = offset;
           cp = lut3;
           return 0;
         } else if (*lut1 == 'f' && (isspace(*lut2) || *lut2 == EOF)) {
           token.type = TOKEN_KEYWORD;
           token.lexeme_start = c;
           token.lexeme_end = lut2;
+          token.col_num = offset;
           cp = lut2;
           return 0;
         }
@@ -337,6 +386,7 @@ int gettok() {
         while (isalnum(*(c = advance()))) {
           token.col_num += 1;
         }
+        token.col_num = offset;
         token.lexeme_end = c;
         return 0;
       case '\n':
@@ -352,6 +402,7 @@ int gettok() {
         while (*(c = advance()) != '"' && *c != EOF) {
         }
         token.lexeme_end = *c == EOF ? c : cp;
+        token.col_num = offset;
         return 0;
       case '0':
       case '1':
@@ -368,6 +419,7 @@ int gettok() {
         // calculate the value here
         while (isdigit(*(c = advance()))) {
         }
+        token.val = strtol(token.lexeme_start, &token.lexeme_end, 10);
         token.lexeme_end = c;
         return 0;
       case '+':

@@ -6,7 +6,7 @@
  * <expr_sub> ::= "+" <expr_sub> | "-" <expr_sub> | ""
  * <term> ::= <factor> <term_sub>
  * <term_sub> ::= "*" <term_sub> | "/" <term_sub> | ""
- * <factor> ::= digit | "(" <expr> ")"k
+ * <factor> ::= number | "(" <expr> ")"
  */
 typedef enum {
   EXPR,
@@ -23,9 +23,20 @@ typedef enum {
 
 typedef struct Node {
   NodeType type;
-  Node **children;
+  struct Node *children[10];
 } Node;
 
-Node *parse(int(gettok)());
+Node *parse();
+
+/**
+ * @brief Consider the following situation where the production bodies
+ * have circular dependencies.
+ * A -> BC;
+ * B -> A;
+ * How can we remove the circular dependency?
+ * I'd just relabel A
+ * A -> BC;
+ * B -> A';
+ */
 
 #endif

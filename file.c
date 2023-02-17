@@ -6,6 +6,8 @@ static FILE *fp = NULL;
 
 char *cp = NULL;
 
+unsigned int offset = 0;
+
 char buffer[BUFF_SIZE];
 
 unsigned int num_read;
@@ -31,6 +33,7 @@ void reload_buffer_2() {
 }
 
 int open_file(char *filepath) {
+  offset = 0;
   fp = fopen(filepath, "r");
   buffer[BUFF_1_SIZE - 1] = EOF;
   buffer[BUFF_SIZE - 1] = EOF;
@@ -51,19 +54,6 @@ void db() {
   reload_buffer_1();
   printf("NOW: %d\n", feof(fp));
 }
-/*
-char advance() {
-  if (*cp == EOF) {
-    if (AT_EOB1_NEW(cp)) {
-      reload_buffer_2();
-    } else if (AT_EOB2_NEW(cp)) {
-      reload_buffer_1();
-    }
-  }
-  char c = *cp++;
-  return c;
-}
-*/
 
 char *advance() {
   switch (*cp) {
@@ -88,6 +78,7 @@ char *advance() {
       }
       break;
   }
+  ++offset;
   return cp++;
 }
 

@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-#define BUFF_1_SIZE 4096
+#define BUFF_1_SIZE 8
 
 #define BUFF_2_SIZE BUFF_1_SIZE
 
@@ -10,6 +10,8 @@
 extern char buffer[BUFF_SIZE];
 
 extern char *cp;
+
+extern unsigned int offset;
 
 #define AT_EOF (*cp == EOF)
 

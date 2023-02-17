@@ -53,4 +53,6 @@ void printtok();
  */
 void printlexeme();
 
+unsigned short int compare(const char *value);
+
 #endif
