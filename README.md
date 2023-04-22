@@ -30,7 +30,7 @@ Here are some examples, given the terminals and nonterminals defined above
 - If $\alpha = \{\mathrm{expr} \mathrm{;} \}$, then $\mathrm{FIRST}(\alpha) = \{ \mathrm{expr} \}$
 
 ### Predictive Parsing
-Recursive descent parsing is a top-down method of syntax analysis in which a sset of recursive procedure is used to process the input. Each nonterminal in the grammar is associated with a procedure.
+Recursive descent parsing is a top-down method of syntax analysis in which a set of recursive procedure is used to process the input. Each nonterminal in the grammar is associated with a procedure.
 Predictive parsing is a specialization of recursive descent parsing in which the lookahead symbol unabmiguoulsy determines the flow of control through the procedure body for each nonterminal. 
 #### _match(t)_
 The book defines a helper method called match(t) which returns true and 
